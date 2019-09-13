@@ -1,0 +1,56 @@
+// body > * {
+//   position: relative;
+//   box-sizing: border-box;
+// }
+
+// #gantt_here *{ box-sizing: unset}
+
+label { font-weight:  bold; color: #555}
+
+.data-view-buttons {
+  button:focus {outline: none !important; box-shadow: none !important}
+  button:not(.active):hover {background-color: #f2f2f2; color: #333}
+}
+
+.gant-button-group-list {
+  display: block;
+
+  .button-group {
+    display: inline-block;
+    border: 1px solid #d2d2d2;
+
+    button {
+      background-color: #fff;
+      color: #333;
+      padding: 6px 15px;
+      border: 0px;
+  
+      &:not(:last-child) {
+        border-right: 1px solid #d2d2d2;
+      }
+    }
+  }
+}
+
+.gantt_cal_light {
+  box-sizing: border-box;
+  min-height: 328px !important;
+}
+
+.header {
+  background-color: #446e9b;
+  height: 50px;
+  position: sticky;
+  top: 0px;
+  z-index: 10;
+
+  img {
+    width: auto;
+    height: 50px;
+  }
+}
+
+.gantt_resizer {
+  cursor: col-resize;
+  position: relative;
+}

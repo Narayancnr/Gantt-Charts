@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>.: GANTT CHARTS DEMO :.</title>
+
+  <!-- bootstarp css import -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- bootstarp css import ends -->
+
+  <!-- style import for gantt charts trial by dHtmlx gantt charts trial version -->
+  <link rel="stylesheet" href="/gantt-codebase/codebase/dhtmlxgantt.css">
+  <link rel="stylesheet" href="" id="skin">
+  <!-- style import for gantt charts trial by dHtmlx gantt charts trial version ends-->
+
+  <!-- Importing custom style sheet -->
+  <link rel="stylesheet" href="/styles/style.css">
+  <!-- Importing custom style sheet ends -->
+</head>
+<body>
+  <!-- New service request add section -->
+  <section class="header">
+    <div class="header-bar">
+      <div class="logo-area">
+        <img src="/assets/Annotation 2019-09-13 035542.png" class="main-logo" alt="">
+      </div>
+    </div>
+  </section>
+  <section class="container-fluid px-0">
+    <div class="container-fluid mt-3">
+      <div class="col-12 px-0 mb-3">
+        <h3>Gantt charts demo</h3>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-12 col-md-2">
+          <label for="">Request Id:</label>
+          <input type="text" id="request_id" class="form-control" placeholder="Request id">
+        </div>
+        <div class="form-group col-12 col-md-2">
+          <label for="">Request name:</label>
+          <input type="text" id="request_name" class="form-control" placeholder="Request name">
+        </div>
+        <div class="form-group col-12 col-md-2">
+          <label for="">Start date:</label>
+          <input type="date" id="start_date" class="form-control" onchange="onDateChange()">
+        </div>
+        <div class="form-group col-12 col-md-2">
+          <label for="">End date:</label>
+          <input type="date" id="end_date" class="form-control" onchange="onDateChange()">
+        </div>
+        <div class="form-group col-12 col-md-2">
+          <label for="">Duration (No of days):</label>
+          <input type="number" id="request_dur" class="form-control" value="0" readonly="readonly">
+        </div>
+        <!-- <div class="form-group col-12 col-md-2">
+          <label for="">Completion: [<span id="rangeVal">0</span>%]</label>
+          <input type="range" id="service_com" class="form-control" value="0" onchange="onRange(this)">
+        </div> -->
+        <div class="form-group col-12 col-md-2">
+          <!-- <label for="">Submit</label> -->
+          <button class="btn btn-primary w-100" onclick="addTask()" style="margin-top: 32px">Submit request</button>
+        </div>
+      </div>
+      <div class="col-12 mt-5 text-left px-0 mb-4">
+        <div class="btn-group data-view-buttons">
+          <button class="btn btn-outline-primary" id="table-toggle" onclick="changeDataView('table')">Table view</button>
+          <button class="btn btn-outline-primary" id="gantt-toggle" onclick="changeDataView('gantt')">Gantt chart view</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- New service request add section ends -->
+
+  <!-- Data view section -->
+  <section class="container-fluid pb-5">
+
+    <!-- Table view container -->
+    <div class="container-fluid px-0 pt-5"  id="gant-test-data-table">
+      <table class="table table-hover w-100">
+        <thead>
+          <tr>
+            <th></th>
+            <th>View</th>
+            <th>Request name</th>
+            <th>Start</th>
+            <th>End</th>
+            <th class="text-center">Duration</th>
+          </tr>
+        </thead>
+        <tbody id="service-list-body"></tbody>
+      </table>
+    </div>
+    <!-- Table view container ends -->
+
+    <!-- Gantt view container -->
+    <div class="container-fluid px-0" id="gantt-view-block">
+      <div class="gant-controls text-right mb-2">
+        <div class="gant-button-group-list mb-2">
+          <div class="button-group">
+            <button onclick="exportToExcel()">Export to Excel</button><button onclick="exportToPdf()">Export to pdf</button><button onclick="exportToPNG()">Export to png</button>
+          </div>
+        </div>
+        <div class="gant-button-group-list">
+          <div class="button-group mr-2">
+            <button onclick="changeSkin('terrace')">Terrace</button><button onclick="changeSkin('material')">Material</button><button onclick="changeSkin('meadow')">Meadow</button><button onclick="changeSkin('skyblue')">Skyblue</button>
+          </div>
+          <div class="button-group mr-2">
+            <button onclick="setColors('default')">Default</button><button onclick="setColors('colored')">Themed</button>
+          </div>
+          <div class="button-group">
+            <button onclick="zoomIn()"><i class="fa fa-search-plus mr-2"></i>Zoom in</button><button onclick="zoomOut()"><i class="fa fa-search-minus mr-2"></i>Zoom out</button><button onclick="zoomToFit()">Zoom to fit</button>
+          </div>
+        </div>
+      </div>
+      <div id="gantt_here"></div>
+    </div>
+    <!-- Gantt view container ends -->
+
+  </section>
+  <!-- Data view section ends -->
+
+
+  <!-- Script imports for bootstrap -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <!-- Script imports for bootstrap ends -->
+
+
+  <!-- Script import for gantt charts trial by dHtmlx gantt charts trial version -->
+  <script src="/gantt-codebase/codebase/dhtmlxgantt.js"></script>
+  <script src="/gantt-codebase/codebase/ext/dhtmlxgantt_marker.js"></script>
+  <script src="http://export.dhtmlx.com/gantt/api.js"></script>
+  <!-- Script import for gantt charts trial by dHtmlx gantt charts trial version ends -->
+
+
+  <!-- Custom script import for gant charts initiation and manage -->
+  <script src="/js/gantt-configs.js"></script>
+  <script src="/js/functions.js"></script>
+  <!-- Custom script import for gant charts initiation and manage ends-->
+
+</body>
+</html>
